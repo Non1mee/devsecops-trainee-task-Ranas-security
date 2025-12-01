@@ -1,0 +1,24 @@
+name: Log Checker CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-logs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x log_checker.sh
+
+      - name: Run log checker on example.log
+        run: ./log_checker.sh example.log
+
+      - name: Fail if errors found (this step runs only if previous succeeded)
+        if: success()
+        run: echo "No errors – CI passes"
+

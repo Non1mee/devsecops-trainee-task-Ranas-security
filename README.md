@@ -74,6 +74,20 @@ docs: update README with usage examples
 All security notes are in a separate file SECURITY_NOTES.md.
 It contains recommendations for safe Docker usage and minimizing risks when running images from the internet.
 
+## Update – What was changed
+
+- Added proper `.gitignore`
+- Cleaned repository from temporary files
+- Improved `log_checker.sh`:
+  - Better formatting and error handling
+  - Statistics mode (counts INFO/WARN/ERROR)
+  - Exit code 1 if any ERROR line found (perfect for CI)
+  - Exit code 0 if no errors
+- Added GitHub Actions workflow `.github/workflows/log-check.yml`:
+  - Runs on every push & PR
+  - Fails the whole CI if `example.log` contains the word ERROR
+EOF
+
 ## Tools used
 
 Parrot OS / Ubuntu

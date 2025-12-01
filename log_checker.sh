@@ -1,22 +1,61 @@
-#!/usr/bin/env bash
 
-if [[ -z "$1" ]]; then
-    echo "Error: No log file specified."
-    exit 1
-fi
+set -euo pipefail
 
-LOGFILE="$1"
+if [ $# -eq 0 ]; then
 
-if [[ ! -f "$LOGFILE" ]]; then
-    echo "Error: File '$LOGFILE' does not exist."
+    echo "Error: No log file provided"
+
+    echo "Usage: $0 <log-file>"
+
     exit 2
+
 fi
 
-total_lines=$(wc -l < "$LOGFILE")
-info_lines=$(grep -c "INFO" "$LOGFILE")
-warn_lines=$(grep -c "WARN" "$LOGFILE")
-error_lines=$(grep -c "ERROR" "$LOGFILE")
-echo "Total lines: $total_lines"
-echo "INFO lines:  $info_lines"
-echo "WARN lines:  $warn_lines"
-echo "ERROR lines: $error_lines"
+LOG_FILE="$1"
+
+if [ ! -f "$LOG_FILE" ]; then
+
+    echo "Error: File '$LOG_FILE' does not exist!"
+
+    exit 2
+
+fi
+
+TOTAL=$(wc -l < "$LOG_FILE")
+
+INFO_COUNT=$(grep -c "INFO"  "$LOG_FILE" || echo 0)
+
+WARN_COUNT=$(grep -c "WARN"  "$LOG_FILE" || echo 0)
+
+ERROR_COUNT=$(grep -c "ERROR" "$LOG_FILE" || echo 0)
+
+echo "=== Log Analysis Report ==="
+
+echo "File       : $LOG_FILE"
+
+echo "Total lines: $TOTAL"
+
+echo "INFO lines : $INFO_COUNT"
+
+echo "WARN lines : $WARN_COUNT"
+
+echo "ERROR lines: $ERROR_COUNT"
+
+echo "=========================="
+
+# Exit code logic
+
+if [ "$ERROR_COUNT" -gt 0 ]; then
+
+    echo "Errors detected in the log → failing with exit code 1"
+
+    exit 1
+
+else
+
+    echo "No errors found → success (exit code 0)"
+
+    exit 0
+
+fi
+
