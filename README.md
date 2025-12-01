@@ -25,7 +25,7 @@ INFO lines: 3
 WARN lines: 2
 ERROR lines: 1
 
-## Task 2 – Non root container script
+## Task 2 Non root container script
 
 The print_info.py script prints:
 
@@ -61,7 +61,7 @@ Current user: appuser
 Current directory: /app
 APP_ENV: production
 
-## Task 3 – Git Workflow
+## Task 3  Git Workflow
 
 At least 3 meaningful commits were made:
 
@@ -69,7 +69,7 @@ feat: add log checker script
 feat: add containerized env info script
 docs: update README with usage examples
 
-## Task 4 – Security Notes
+## Task 4  Security Notes
 
 All security notes are in a separate file SECURITY_NOTES.md.
 It contains recommendations for safe Docker usage and minimizing risks when running images from the internet.
