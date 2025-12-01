@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Check if a file path was provided
 if [[ -z "$1" ]]; then
     echo "Error: No log file specified."
     exit 1
@@ -8,7 +7,6 @@ fi
 
 LOGFILE="$1"
 
-# Check if file exists
 if [[ ! -f "$LOGFILE" ]]; then
     echo "Error: File '$LOGFILE' does not exist."
     exit 2
