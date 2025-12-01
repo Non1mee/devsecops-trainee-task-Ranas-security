@@ -73,3 +73,9 @@ docs: update README with usage examples
 
 All security notes are in a separate file SECURITY_NOTES.md.
 It contains recommendations for safe Docker usage and minimizing risks when running images from the internet.
+
+## Tools used
+
+Parrot OS / Ubuntu
+Bash, Python 3.12, Docker
+Git + GitHub Actions 
