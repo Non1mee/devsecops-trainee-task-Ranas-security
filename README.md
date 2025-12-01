@@ -20,9 +20,9 @@ The `log_checker.sh` script analyzes a log file and counts:
  ./log_checker.sh example.log
 
 3. Sample Output
-Total lines: 4
-INFO lines: 2
-WARN lines: 1
+Total lines: 7
+INFO lines: 3
+WARN lines: 2
 ERROR lines: 1
 
 ## Task 2 – Non root container script
