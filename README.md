@@ -88,6 +88,17 @@ It contains recommendations for safe Docker usage and minimizing risks when runn
   - Fails the whole CI if `example.log` contains the word ERROR
 EOF
 
+## CI: Log Checker
+
+This repository has a GitHub Actions workflow **Log Checker CI** that:
+
+- runs automatically on every push and pull request to `main`
+- executes `./log_checker.sh example.log`
+- **fails the pipeline (red)** if at least one `ERROR` line is found
+- **passes the pipeline (green)** if there are no `ERROR` lines
+
+Current status → https://github.com/Non1mee/devsecops-trainee-task-Ranas-security/actions
+
 ## Tools used
 
 Parrot OS / Ubuntu
