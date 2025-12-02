@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  check-logs:
+  check-log:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,10 +15,16 @@ jobs:
       - name: Make script executable
         run: chmod +x log_checker.sh
 
-      - name: Run log checker on example.log
+      - name: Run log analysis
+        id: analysis
         run: ./log_checker.sh example.log
 
-      - name: Fail if errors found (this step runs only if previous succeeded)
-        if: success()
-        run: echo "No errors – CI passes"
+      - name: Fail on ERROR lines
+        if: failure()
+        run: |
+          echo "ERROR lines found → pipeline intentionally FAILED"
+          exit 1
 
+      - name: Success – clean log
+        if: success()
+        run: echo "No ERROR lines → pipeline PASSED"
