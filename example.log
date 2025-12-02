@@ -1,7 +1,7 @@
 2025-01-01 INFO Application started
 2025-01-01 WARN Config file missing
 2025-01-01 INFO User logged in
-2025-01-01 ERROR Failed to load module
+2025-01-01 INFO Failed to load module
 2025-01-01 WARN Retry attempt
 2025-01-01 INFO Shutdown initiated
 
