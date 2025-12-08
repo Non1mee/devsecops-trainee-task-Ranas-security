@@ -13,17 +13,17 @@ jobs:
       - name: Build image
         run: docker build -f Dockerfile.service -t my-log-service .
 
-      - name: Deploy to test server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.TEST_SERVER_HOST }}
-          username: ${{ secrets.TEST_SERVER_USER }}
-          key: ${{ secrets.TEST_SERVER_SSH_KEY }}
-          script: |
-            docker pull my-log-service
-            docker stop log-service || true
-            docker rm log-service || true
-            docker run -d --name log-service -p 5000:5000 my-log-service
+     # - name: Deploy to test server
+      #  uses: appleboy/ssh-action@v1.0.3
+       # with:
+        #  host: ${{ secrets.TEST_SERVER_HOST }}
+         # username: ${{ secrets.TEST_SERVER_USER }}
+         # key: ${{ secrets.TEST_SERVER_SSH_KEY }}
+        #  script: |
+         #   docker pull my-log-service
+          #  docker stop log-service || true
+           # docker rm log-service || true
+           # docker run -d --name log-service -p 5000:5000 my-log-service
 
-      - name: Health check
-        run: curl -f http://${{ secrets.TEST_SERVER_HOST }}:5000/analyze || exit 1
+     # - name: Health check
+      #  run: curl -f http://${{ secrets.TEST_SERVER_HOST }}:5000/analyze || exit 1
