@@ -1,32 +1,31 @@
 #!/bin/bash
+
 set -euo pipefail
 
-FILE="${1:-example.log}"
+LOG_FILE="${1:-example.log}"
 
-if [[ ! -f "$FILE" ]]; then
-  echo "File $FILE not found!"
-  exit 2
+if [ ! -f "$LOG_FILE" ]; then
+    echo "Error: File '$LOG_FILE' not found!"
+    exit 1
 fi
 
-TOTAL=$(wc -l < "$FILE")
-INFO=$(grep -c "INFO" "$FILE" || echo 0)
-WARN=$(grep -c "WARN" "$FILE" || echo 0)
-ERROR=$(grep -c "ERROR" "$FILE" || echo 0)
+TOTAL=$(wc -l < "$LOG_FILE")
+INFO_COUNT=$(grep -c "INFO" "$LOG_FILE" || echo 0)
+WARN_COUNT=$(grep -c "WARN" "$LOG_FILE" || echo 0)
+ERROR_COUNT=$(grep -c "ERROR" "$LOG_FILE" || echo 0)
 
-cat <<REPORT
-=== Log Analysis Report ===
-File        : $FILE
-Total lines : $TOTAL
-INFO lines  : $INFO
-WARN lines  : $WARN
-ERROR lines : $ERROR
-============================
-REPORT
+echo "=== Log Analysis Report ==="
+echo "File       : $LOG_FILE"
+echo "Total lines: $TOTAL"
+echo "INFO lines : $INFO_COUNT"
+echo "WARN lines : $WARN_COUNT"
+echo "ERROR lines: $ERROR_COUNT"
+echo "==========================="
 
-if (( ERROR > 0 )); then
-  echo "Errors detected → failing with exit code 1"
-  exit 1
+if [ "$ERROR_COUNT" -gt 0 ]; then
+    echo "Errors detected → failing with exit code 1"
+    exit 1
 else
-  echo "No errors → success"
-  exit 0
+    echo "No errors found → success with exit code 0"
+    exit 0
 fi

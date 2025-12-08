@@ -7,24 +7,39 @@ on:
     branches: [ main ]
 
 jobs:
-  check-log:
+  analyze-logs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Make script executable
-        run: chmod +x log_checker.sh
-
-      - name: Run log analysis
-        id: analysis
+      - name: Test log checker script on sample log
         run: ./log_checker.sh example.log
 
-      - name: Fail on ERROR lines
+      - name: Handle failure if errors found
         if: failure()
-        run: |
-          echo "ERROR lines found → pipeline intentionally FAILED"
-          exit 1
+        run: echo "ERROR lines detected – job failed intentionally"
 
-      - name: Success – clean log
+      - name: Handle success if no errors
         if: success()
-        run: echo "No ERROR lines → pipeline PASSED"
+        run: echo "No ERROR lines – job passed"
+
+      - name: Collect and sanitize system snapshot
+        if: always()
+        run: |
+          mkdir snapshot
+          df -h > snapshot/disk.txt
+          free -h > snapshot/memory.txt
+          uname -a > snapshot/kernel.txt
+          hostname > snapshot/hostname.txt
+          ip route > snapshot/routes.txt
+          # Sanitize sensitive data (IPs, hostnames, routes)
+          sed -i 's/\b([0-9]{1,3}\.){3}[0-9]{1,3}\b/[REDACTED_IP]/g' snapshot/*.txt
+          sed -i 's/hostname: .*/hostname: [REDACTED]/g' snapshot/*.txt
+          sed -i 's/^. *via .*$/[REDACTED_ROUTE]/g' snapshot/routes.txt  # Redact routes
+
+      - name: Upload sanitized snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sanitized-system-snapshot
+          path: snapshot/
