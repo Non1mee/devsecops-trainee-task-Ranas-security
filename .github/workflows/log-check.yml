@@ -43,3 +43,14 @@ jobs:
         with:
           name: sanitized-system-snapshot
           path: snapshot/
+  - name: Build secure Docker image
+    run: docker build -t secure-log-analyzer .
+
+  - name: Scan for vulnerabilities with Trivy
+    uses: aquasecurity/trivy-action@0.16.1
+    with:
+      image-ref: 'secure-log-analyzer'
+      format: 'table'
+      exit-code: '1'
+      ignore-unfixed: 'true'
+      severity: 'HIGH,CRITICAL'
