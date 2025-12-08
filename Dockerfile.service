@@ -1,0 +1,15 @@
+FROM python:3.12-slim
+
+RUN useradd appuser
+
+WORKDIR /app
+
+COPY app.py log_checker.sh .
+
+RUN chmod +x log_checker.sh && pip install flask --no-cache-dir
+
+USER appuser
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
