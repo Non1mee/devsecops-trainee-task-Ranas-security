@@ -1,6 +1,4 @@
-# devsecops-trainee-task-Ranas-security
-
-## Task 1 Log checker
+###  Log checker
 
 The `log_checker.sh` script analyzes a log file and counts:
 
